@@ -7,6 +7,7 @@ using namespace std;
 class FinancialEntity {
 public:
     virtual void display() const = 0;  // Abstract method
+    virtual ~FinancialEntity() {}      // Virtual destructor
 };
 
 class Transaction : public FinancialEntity {
@@ -16,16 +17,13 @@ private:
     string description;
 
 public:
-    Transaction(int id, double amt, string desc) : transaction_id(id), amount(amt), description(desc) {}
+    Transaction(int id, double amt, const string& desc) : transaction_id(id), amount(amt), description(desc) {}
 
     void display() const override {
         cout << "Transaction: " << transaction_id << ": $" << amount << " - " << description << endl;
     }
 
-    // Getter methods
-    int getTransactionId() const { return transaction_id; }
     double getAmount() const { return amount; }
-    string getDescription() const { return description; }
 };
 
 class Account : public FinancialEntity {
@@ -33,18 +31,25 @@ private:
     static int nextAccountId; // Static variable for auto-incrementing account IDs
     int account_id;
     string owner;
-    vector<Transaction> transactions;
+    vector<Transaction*> transactions; // Using vector for dynamic transactions
 
 public:
-    Account(string own) : account_id(nextAccountId++), owner(own) {}
+    Account(const string& own) : account_id(nextAccountId++), owner(own) {}
 
-    void addTransaction(Transaction transaction) {
+    ~Account() {
+        // Destructor to deallocate dynamically allocated transactions
+        for (Transaction* transaction : transactions) {
+            delete transaction;
+        }
+    }
+
+    void addTransaction(Transaction* transaction) {
         transactions.push_back(transaction);
     }
 
     void displayTransactions() const {
-        for (const auto& transaction : transactions) {
-            transaction.display();
+        for (const Transaction* transaction : transactions) {
+            transaction->display();
         }
     }
 
@@ -60,7 +65,7 @@ public:
 
     // Getter methods
     int getAccountId() const { return account_id; }
-    string getOwner() const { return owner; }
+    const string& getOwner() const { return owner; }
 };
 
 // Initialize static variable
@@ -72,7 +77,7 @@ private:
     vector<vector<double>> adjacencyMatrix;
 
 public:
-    void addAccount(Account account) {
+    void addAccount(const Account& account) {
         accounts.push_back(account);
 
         // Resize the adjacency matrix to accommodate the new account
@@ -93,19 +98,20 @@ public:
         return nullptr;
     }
 
-    void addTransactionBetweenAccounts(const string& fromAccountOwner, const string& toAccountOwner, Transaction transaction) {
+    void addTransactionBetweenAccounts(const string& fromAccountOwner, const string& toAccountOwner,
+                                   Transaction* senderTransaction, Transaction* receiverTransaction) {
     Account* fromAccount = findAccountByName(fromAccountOwner);
     Account* toAccount = findAccountByName(toAccountOwner);
 
     if (fromAccount && toAccount) {
         // Debit transaction (money sent) for the sender
-        fromAccount->addTransaction(Transaction(fromAccount->getAccountId(), -transaction.getAmount(), "Sent money to " + toAccountOwner));
+        fromAccount->addTransaction(senderTransaction);
 
         // Credit transaction (money received) for the receiver
-        toAccount->addTransaction(Transaction(toAccount->getAccountId(), transaction.getAmount(), "Received money from " + fromAccountOwner));
+        toAccount->addTransaction(receiverTransaction);
 
         // Update the adjacency matrix based on the transaction type (debit or credit)
-        double transactionAmount = transaction.getAmount();
+        double transactionAmount = senderTransaction->getAmount();
         if (transactionAmount < 0) {  // Debit (money sent)
             adjacencyMatrix[fromAccount->getAccountId() - 1][toAccount->getAccountId() - 1] += transactionAmount;
         } else {  // Credit (money received)
@@ -144,8 +150,8 @@ int main() {
                 cin.ignore(); // Ignore any newline characters in the buffer
                 getline(cin, name);
 
-                Account newAccount(name);
-                financialSystem.addAccount(newAccount);
+                Account* newAccount = new Account(name); // Allocate account dynamically
+                financialSystem.addAccount(*newAccount);
 
                 cout << "Account Created." << endl;
                 break;
@@ -168,21 +174,24 @@ int main() {
 
                         switch (optionChar) {
                             case 'A': {
-                                double amount;
-                                string receiverName;
+    double amount;
+    string receiverName;
 
-                                cout << "Enter amount: $";
-                                cin >> amount;
+    cout << "Enter amount: $";
+    cin >> amount;
 
-                                cout << "Receiver's Name: ";
-                                cin.ignore(); // Ignore any newline characters in the buffer
-                                getline(cin, receiverName);
+    cout << "Receiver's Name: ";
+    cin.ignore(); // Ignore any newline characters in the buffer
+    getline(cin, receiverName);
 
-                                Transaction transaction(userAccount->getAccountId(), amount, "Sent money");
-                                financialSystem.addTransactionBetweenAccounts(userAccount->getOwner(), receiverName, transaction);
+    Transaction* senderTransaction = new Transaction(userAccount->getAccountId(), -amount, "Sent money to " + receiverName);
+    Transaction* receiverTransaction = new Transaction(userAccount->getAccountId(), amount, "Received money from " + userAccount->getOwner());
 
-                                break;
-                            }
+    financialSystem.addTransactionBetweenAccounts(userAccount->getOwner(), receiverName, senderTransaction, receiverTransaction);
+
+    break;
+}
+
                             case 'B':
                                 userAccount->displayTransactions();
                                 break;
