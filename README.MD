@@ -13,8 +13,9 @@
 ## Simple Financial Management System
 under construction mb
 
-** 1. Implements class, property, method, constructor, and destructor **
-Class
+### 1. Implements class, property, method, constructor, and destructor
+
+**Class**
 ```
 [insert code here]
 ```
@@ -22,7 +23,7 @@ Class
 
 
 
-Property
+**Property**
 ```
 [insert code here]
 ```
@@ -30,7 +31,7 @@ Property
 
 
 
-Method
+**Method**
 ```
 [insert code here]
 ```
@@ -38,7 +39,7 @@ Method
 
 
 
-Constructor
+**Constructor**
 ```
 [insert code here]
 ```
@@ -46,7 +47,7 @@ Constructor
 
 
 
-Destructor
+**Destructor**
 ```
 [insert code here]
 ```
@@ -54,7 +55,7 @@ Destructor
 
 
 
-** 2. Adjacency matrix **
+### 2. Adjacency matrix
 ```
 [insert snippet code here]
 ```
@@ -62,7 +63,7 @@ Destructor
 
 
 
-** 3. Class installation **
+### 3. Class installation
 ```
 [insert code here]
 ```
@@ -70,7 +71,7 @@ Destructor
 
 
 
-** 4. Implements abstract class **
+### 4. Implements abstract class
 ```
 [insert code here]
 ```
@@ -78,8 +79,8 @@ Destructor
 
 
 
-** 5. Implements encapsulation: Public and private **
-Public
+### 5. Implements encapsulation: Public and private
+**Public**
 ```
 [insert code here]
 ```
@@ -87,7 +88,7 @@ Public
 
 
 
-Private
+**Private**
 ```
 [insert code here]
 ```
@@ -95,7 +96,7 @@ Private
 
 
 
-** 6. Implements inheritance: Single / Hierarchical / Multilevel **
+### 6. Implements inheritance: Single / Hierarchical / Multilevel
 ```
 [insert code here]
 ```
@@ -103,8 +104,8 @@ Private
 
 
 
-** 7. Implements polymorphism: Overriding and overloading **
-Overriding
+### 7. Implements polymorphism: Overriding and overloading
+**Overriding**
 ```
 [insert code here]
 ```
@@ -112,7 +113,7 @@ Overriding
 
 
 
-Overloading
+**Overloading**
 ```
 [insert code here]
 ```
@@ -120,7 +121,7 @@ Overloading
 
 
 
-** 8. Implements composition **
+### 8. Implements composition
 ```
 [insert code here]
 ```
@@ -128,8 +129,8 @@ Overloading
 
 
 ### A sprinkle of creativity ;D
-** Added color styling **
+**Added color styling**
 [insert short explanation here]
 
-** Added bold styling **
+**Added bold styling**
 [insert short explanation here]
