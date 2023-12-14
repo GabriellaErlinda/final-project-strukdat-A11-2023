@@ -67,7 +67,7 @@ public:
         cout << "Account " << account_id << " - Owner: " << owner << endl;
         if (transactions.empty())
         {
-            cout << "\033[31m[!] No history yet\033[0m" << endl;
+            cout << "[!] No history yet" << endl;
         }
         else
         {
@@ -144,7 +144,7 @@ public:
         }
         else
         {
-            cout << "\033[31m[!] Error: One or more accounts not found.\033[0m" << endl;
+            cout << "[!] Error: One or more accounts not found." << endl;
         }
     }
 
@@ -162,17 +162,17 @@ class Polymorphism
 public:
     void getTransactionAmount(double &amount)
     {
-        cout << "\033[34mEnter amount: $\033[0m";
+        cout << "Enter amount: $";
         cin >> amount;
     }
     void getTransactionAmount(int &amount)
     {
-        cout << "\033[34mEnter amount: $\033[0m";
+        cout << "Enter amount: $";
         cin >> amount;
     }
     void getTransactionAmount(float &amount)
     {
-        cout << "\033[34mEnter amount: $\033[0m";
+        cout << "Enter amount: $";
         cin >> amount;
     }
 };
@@ -184,14 +184,14 @@ int main()
     int choice;
     do
     {
-        cout << "\033[1;33mFinancial Tracking System\033[0m" << endl;
-        cout << "\033[33m========================\033[0m" << endl;
-        cout << "\033[1;34mOptions:\033[0m" << endl;
-        cout << "\033[34m1. Create New Account\033[0m" << endl;
-        cout << "\033[34m2. Login Into Existing Account\033[0m" << endl;
-        cout << "\033[34m3. Display Financial Tracker\033[0m" << endl;
-        cout << "\033[34m4. Exit\033[0m" << endl;
-        cout << "\033[33mEnter your choice: \033[0m";
+        cout << "Financial Tracking System" << endl;
+        cout << "========================" << endl;
+        cout << "Options:" << endl;
+        cout << "1. Create New Account" << endl;
+        cout << "2. Login Into Existing Account" << endl;
+        cout << "3. Display Financial Tracker" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice)
@@ -199,21 +199,21 @@ int main()
         case 1:
         {
             string name;
-            cout << "\033[33mInput Your Name: \033[0m";
+            cout << "Input Your Name: ";
             cin.ignore(); // Ignore any newline characters in the buffer
             getline(cin, name);
 
             Account *newAccount = new Account(name); // Allocate account dynamically
             financialSystem.addAccount(*newAccount);
 
-            cout << "\033[32m[!] Account Created.\033[0m\n"
+            cout << "[!] Account Created." << endl
                  << endl;
             break;
         }
         case 2:
         {
             string name;
-            cout << "\033[33m> Input Account's Name: \033[0m";
+            cout << "> Input Account's Name: ";
             cin.ignore(); // Ignore any newline characters in the buffer
             getline(cin, name);
 
@@ -223,10 +223,10 @@ int main()
                 char optionChar;
                 do
                 {
-                    cout << "\033[1;34mOptions:\033[0m" << endl;
-                    cout << "\033[35mA. Send Money\033[0m" << endl;
-                    cout << "\033[35mB. Display Transaction History\033[0m" << endl;
-                    cout << "\033[33mEnter your choice: \033[0m";
+                    cout << "Options:" << endl;
+                    cout << "A. Send Money" << endl;
+                    cout << "B. Display Transaction History" << endl;
+                    cout << "Enter your choice: ";
                     cin >> optionChar;
 
                     switch (optionChar)
@@ -239,15 +239,15 @@ int main()
 
                         overloadOperator.getTransactionAmount(amount);
 
-                        cout << "\033[32mReceiver's Name: \033[0m";
+                        cout << "Receiver's Name: ";
                         cin.ignore(); // Ignore any newline characters in the buffer
                         getline(cin, receiverName);
 
-                        cout << "\n\033[32m[!] Transaction Successful.\033[0m\n"
+                        cout << "[!] Transaction Successful." << endl
                              << endl;
 
-                        Transaction *senderTransaction = new Transaction(userAccount->getAccountId(), -amount, "\033[31m[!] Sent money to \033[0m" + receiverName);
-                        Transaction *receiverTransaction = new Transaction(userAccount->getAccountId(), amount, "\033[32m[!] Received money from \033[0m" + userAccount->getOwner());
+                        Transaction *senderTransaction = new Transaction(userAccount->getAccountId(), -amount, "[!] Sent money to " + receiverName);
+                        Transaction *receiverTransaction = new Transaction(userAccount->getAccountId(), amount, "[!] Received money from " + userAccount->getOwner());
 
                         financialSystem.addTransactionBetweenAccounts(userAccount->getOwner(), receiverName, senderTransaction, receiverTransaction);
 
@@ -258,13 +258,13 @@ int main()
                         userAccount->displayTransactions();
                         break;
                     default:
-                        cout << "\033[31m[!] Invalid option. Please try again.\033[0m" << endl;
+                        cout << "[!] Invalid option. Please try again." << endl;
                     }
                 } while (optionChar != 'A' && optionChar != 'B');
             }
             else
             {
-                cout << "\033[31m[!]Account not found.\033[0m" << endl;
+                cout << "[!] Account not found." << endl;
             }
             break;
         }
@@ -272,10 +272,10 @@ int main()
             financialSystem.displayAccounts();
             break;
         case 4:
-            cout << "\033[31m[!] Exiting program.\033[0m" << endl;
+            cout << "[!] Exiting program." << endl;
             break;
         default:
-            cout << "\033[31mInvalid option. Please try again.\033[0m" << endl;
+            cout << "Invalid option. Please try again." << endl;
         }
     } while (choice != 4);
 
