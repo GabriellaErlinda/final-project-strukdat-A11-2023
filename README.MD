@@ -1,4 +1,4 @@
-# <span style="color:red">Final Project</span>
+# Final Project 
 ### Data Structure and OOP
 
 **Kelas A**

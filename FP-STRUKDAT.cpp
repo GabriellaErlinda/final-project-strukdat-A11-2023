@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unistd.h> // For sleep() function
 
 using namespace std;
 
@@ -150,9 +151,19 @@ public:
 
     void displayAccounts() const
     {
-        for (const auto &account : accounts)
+        if (accounts.empty())
         {
-            account.display();
+            cout << "\033[31m[!] Error: No accounts yet.\033[0m\n"
+                 << endl;
+
+            return;
+        }
+        else
+        {
+            for (const auto &account : accounts)
+            {
+                account.display();
+            }
         }
     }
 };
@@ -184,14 +195,14 @@ int main()
     int choice;
     do
     {
-        cout << "\033[1;33mFinancial Tracking System\033[0m" << endl;
-        cout << "\033[33m========================\033[0m" << endl;
+        cout << "\033[1;33m $$ Financial Tracking System $$ \033[0m" << endl;
+        cout << "\033[33m=================================\033[0m" << endl;
         cout << "\033[1;34mOptions:\033[0m" << endl;
         cout << "\033[34m1. Create New Account\033[0m" << endl;
         cout << "\033[34m2. Login Into Existing Account\033[0m" << endl;
         cout << "\033[34m3. Display Financial Tracker\033[0m" << endl;
         cout << "\033[34m4. Exit\033[0m" << endl;
-        cout << "\033[33mEnter your choice: \033[0m";
+        cout << "\033[33m> Enter your choice: \033[0m";
         cin >> choice;
 
         switch (choice)
@@ -203,10 +214,17 @@ int main()
             cin.ignore(); // Ignore any newline characters in the buffer
             getline(cin, name);
 
+            if (financialSystem.findAccountByName(name))
+            {
+                cout << "\033[31m[!] Error: Account with name '" << name << "' already exists.\033[0m\n"
+                     << endl;
+                break;
+            }
+
             Account *newAccount = new Account(name); // Allocate account dynamically
             financialSystem.addAccount(*newAccount);
 
-            cout << "\033[32m[!] Account Created.\033[0m\n"
+            cout << "\033[32m[!] Account with the name " << name << " created.\033[0m\n"
                  << endl;
             break;
         }
@@ -223,6 +241,7 @@ int main()
                 char optionChar;
                 do
                 {
+                    cout << "\033[32m[!] You are successfully logged in as " << name << "\033[0m\n" << endl;
                     cout << "\033[1;34mOptions:\033[0m" << endl;
                     cout << "\033[35mA. Send Money\033[0m" << endl;
                     cout << "\033[35mB. Display Transaction History\033[0m" << endl;
@@ -258,13 +277,13 @@ int main()
                         userAccount->displayTransactions();
                         break;
                     default:
-                        cout << "\033[31m[!] Invalid option. Please try again.\033[0m" << endl;
+                        cout << "\033[31m[!] Error: Invalid option. Please try again.\033[0m" << endl;
                     }
                 } while (optionChar != 'A' && optionChar != 'B');
             }
             else
             {
-                cout << "\033[31m[!]Account not found.\033[0m" << endl;
+                cout << "\033[31m[!] Error: Account not found.\033[0m" << endl;
             }
             break;
         }
@@ -273,9 +292,15 @@ int main()
             break;
         case 4:
             cout << "\033[31m[!] Exiting program.\033[0m" << endl;
+            sleep(1);
+            cout << "\033[31m[!] Exiting program..\033[0m" << endl;
+            sleep(1);
+            cout << "\033[31m[!] Exiting program...\033[0m" << endl;
+            sleep(1);
+            cout << "\033[1;31m[!] Program exited.\033[0m" << endl;
             break;
         default:
-            cout << "\033[31mInvalid option. Please try again.\033[0m" << endl;
+            cout << "\033[31m[!] Error: Invalid option. Please try again.\033[0m" << endl;
         }
     } while (choice != 4);
 
