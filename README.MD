@@ -11,7 +11,13 @@
 |Nicholas Marco Weinandra|5027221042|
 
 ## Simple Financial Management System
-under construction mb
+
+This financial tracking system allows users to create accounts, log into existing accounts, perform transactions (send money), display transaction history (sent and recieved), and view an overall financial tracker of all users existed in the database.
+
+**Preview**
+
+![Alt text](</preview/Screenshot 2023-12-15 000604.png>)
+
 
 ### 1. Implements class, property, method, constructor, and destructor
 
@@ -449,4 +455,6 @@ public:
 ### A sprinkle of creativity ;D
 
 **Added text and color styling**
-![Alt text](image.png)
+
+
+![Alt text](/preview/image.png)
